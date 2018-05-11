@@ -1,0 +1,10 @@
+I have modified https://github.com/Twinklebear/TwinklebearDev-Lessons/tree/master/Lesson3/src to crate a simple demonstration program
+called ``lession04.c``, which can be compiled on UNIX with provided Makefile.
+
+Because of problems with main loops in WebAssembly, I have modified tihs sample to ``ws_lession04.c``.
+This modification will work with emscriptian. See https://lyceum-allotments.github.io/2016/06/emscripten-and-sdl2-tutorial-part-5-move-owl/.
+ 
+To compile for Web Assembly sample, run ``make_emcc.sh''.
+
+
+
