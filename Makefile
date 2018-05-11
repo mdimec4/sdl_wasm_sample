@@ -1,7 +1,7 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = lesson04.cpp
+OBJS = lesson04.c
 #CC specifies which compiler we're using
-CC = g++
+CC = cc
 #COMPILER_FLAGS specifies the additional compilation options we're using 
 # -w suppresses all warnings 
 COMPILER_FLAGS = -w 

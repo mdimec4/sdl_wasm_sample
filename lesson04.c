@@ -1,5 +1,5 @@
-#include <string>
-#include <iostream>
+// based on https://github.com/Twinklebear/TwinklebearDev-Lessons/tree/master/Lesson3/src
+#include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -44,8 +44,8 @@ const int TILE_SIZE = 40;
  * @param os The output stream to write the message too
  * @param msg The error message to write, format will be msg error: SDL_GetError()
  */
-void logSDLError(std::ostream &os, const std::string &msg){
-	os << msg << " error: " << SDL_GetError() << std::endl;
+void logSDLError(FILE *os, const char* msg){
+	fprintf(os, " error: %s\n", SDL_GetError());
 }
 /*
  * Loads an image into a texture on the rendering device
@@ -53,10 +53,10 @@ void logSDLError(std::ostream &os, const std::string &msg){
  * @param ren The renderer to load the texture onto
  * @return the loaded texture, or nullptr if something went wrong.
  */
-SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren){
-	SDL_Texture *texture = IMG_LoadTexture(ren, file.c_str());
+SDL_Texture* loadTexture(const char* file, SDL_Renderer *ren){
+	SDL_Texture *texture = IMG_LoadTexture(ren, file);
 	if (texture == NULL){
-		logSDLError(std::cout, "LoadTexture");
+		logSDLError(stdout, "LoadTexture");
 	}
 	return texture;
 }
@@ -87,29 +87,29 @@ void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int
  * @param x The x coordinate to draw too
  * @param y The y coordinate to draw too
  */
-void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
+void renderTexture2(SDL_Texture *tex, SDL_Renderer *ren, int x, int y){
 	int w, h;
 	SDL_QueryTexture(tex, NULL, NULL, &w, &h);
 	renderTexture(tex, ren, x, y, w, h);
 }
 
-int main(int, char**){
+int main(int argc, char** argv){
 	//Start up SDL and make sure it went ok
 	if (SDL_Init(SDL_INIT_VIDEO) != 0){
-		logSDLError(std::cout, "SDL_Init");
+		logSDLError(stdout, "SDL_Init");
 		return 1;
 	}
 
 	//Setup our window and renderer
 	SDL_Window *window = SDL_CreateWindow("Lesson 3", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL){
-		logSDLError(std::cout, "CreateWindow");
+		logSDLError(stdout, "CreateWindow");
 		SDL_Quit();
 		return 1;
 	}
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer == NULL){
-		logSDLError(std::cout, "CreateRenderer");
+		logSDLError(stdout, "CreateRenderer");
 		cleanup_window(window);
 		SDL_Quit();
 		return 1;
@@ -151,7 +151,7 @@ int main(int, char**){
 		SDL_QueryTexture(image, NULL, NULL, &iW, &iH);
 		int x = SCREEN_WIDTH / 2 - iW / 2;
 		int y = SCREEN_HEIGHT / 2 - iH / 2;
-		renderTexture(image, renderer, x, y);
+		renderTexture2(image, renderer, x, y);
 
 		//Update the screen
 		SDL_RenderPresent(renderer);
